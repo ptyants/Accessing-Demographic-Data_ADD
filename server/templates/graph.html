@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph</title>
+    <!-- Nếu bạn sử dụng Plotly.js thông qua CDN -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Nếu bạn sử dụng Plotly.js thông qua mã nguồn -->
+    <!-- <script src="{{ url_for('static', filename='plotly.min.js') }}"></script> -->
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .container-info {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .info-box {
+            width: 150px;
+            height: 100px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .info-box h2 {
+            margin-bottom: 10px;
+        }
+
+        .chart {
+            width: 45%;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>DashBoard</h1>
+    <div class="container">
+        <div class="container-info">
+            <div class="info-box">
+                <h2>Người dân</h2>
+                <p>{{ person_info_count }}</p>
+            </div>
+            <div class="info-box">
+                <h2 id="selectedValue">Chọn giá trị</h2>
+                <form action="/graph" method="post" onsubmit="submitForm()">
+                    <select id="Ls_id" name="Ls_id">
+                        {% for option in life_statuses %}
+                        <option value="{{ option.id }}">{{ option.Ns }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="Xem">
+                </form>
+                <p>{{ count_by_life_status_id }}</p>
+            </div>
+        </div>
+        <div class="chart-container">
+            <div class="chart">
+                <!-- Đoạn mã HTML của biểu đồ tròn -->
+                {{ pie_html | safe }}
+            </div>
+            <div class="chart">
+                <!-- Đoạn mã HTML của biểu đồ histogram -->
+                {{ histogram_html | safe }}
+            </div>
+        </div>
+    </div>
+    <script>
+        function submitForm() {
+            console.log("Form submitted");
+        }
+    </script>
+</body>
+
+</html>

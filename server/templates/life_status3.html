@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+
+        #sidebar {
+            background-color: #343a40;
+            color: #fff;
+            padding: 15px;
+            transition: all 0.3s;
+            height: 100vh;
+            position: fixed;
+            left: -250px;
+        }
+
+        #sidebar.active {
+            left: 0;
+        }
+
+        #sidebar h2 {
+            margin-bottom: 20px;
+        }
+
+        #sidebar a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        #sidebar a:hover {
+            background-color: #4a525a;
+        }
+
+        #main-content {
+            padding: 15px;
+            transition: margin-left 0.3s;
+        }
+
+        #menu-toggle {
+            margin-bottom: 15px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+    <title>Your Page Title</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3" id="sidebar">
+                <h2>Menu</h2>
+                <a href="#"><i class="fas fa-home"></i> Home</a>
+                <a href="#"><i class="fas fa-heartbeat"></i> Life Status</a>
+                <a href="#"><i class="fas fa-user"></i> Citizen View</a>
+            </div>
+
+            <div class="col-md-9" id="main-content">
+                <button class="btn btn-primary" id="menu-toggle">&#9776; Toggle Menu</button>
+                <h1>Life Status</h1>
+
+                <form method="POST" action="{{ url_for('edit_life_status') }}">
+                    <div class="form-group">
+                        <label for="Ns">Loại tình trạng:</label>
+                        <input type="text" class="form-control" name="Ns" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="describe">Mô tả:</label>
+                        <input type="text" class="form-control" name="describe" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Thêm tình trạng sống</button>
+                </form>
+
+                <ul>
+                    {% for status in life_statuses %}
+                    <li>{{ status.Ns }} - {{ status.describe }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#menu-toggle").click(function () {
+                $("#sidebar").toggleClass("active");
+                $("#main-content").toggleClass("active");
+            });
+        });
+    </script>
+</body>
+
+</html>

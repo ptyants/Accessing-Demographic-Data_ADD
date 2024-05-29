@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Life Status</title>
+</head>
+<body>
+    <h1>Edit Life Status</h1>
+
+    <form id="lifeStatusForm" action="/manager_info/edit_life_status" method="post">
+        <label for="Ns">Ns:</label>
+        <input type="text" id="Ns" name="Ns" required>
+        <br>
+
+        <label for="describe">Describe:</label>
+        <input type="text" id="describe" name="describe" required>
+        <br>
+
+        <!-- Add more fields if needed -->
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <hr>
+
+    <h2>Life Status List</h2>
+    <div id="lifeStatusList"></div>
+
+    <script>
+        // Assume you have a JavaScript function to fetch and display life status list
+        function fetchLifeStatus() {
+            fetch('/manager_info/edit_life_status', {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const lifeStatusListDiv = document.getElementById('lifeStatusList');
+                lifeStatusListDiv.innerHTML = ''; // Clear previous content
+
+                const lifeStatusArray = data.life_status || [];
+
+                lifeStatusArray.forEach(lifeStatus => {
+                    const lifeStatusDiv = document.createElement('div');
+                    lifeStatusDiv.innerHTML = `<strong>ID:</strong> ${lifeStatus.id}, <strong>Ns:</strong> ${lifeStatus.Ns}, <strong>Describe:</strong> ${lifeStatus.describe}`;
+                    lifeStatusListDiv.appendChild(lifeStatusDiv);
+                });
+            })
+            .catch(error => console.error('Error fetching life status:', error));
+        }
+
+        // Fetch life status list when the page loads
+        document.addEventListener('DOMContentLoaded', fetchLifeStatus);
+    </script>
+</body>
+</html>
