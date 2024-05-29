@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Citizen</title>
+    <style>
+        .warning {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sign Citizen</h1>
+    <a href="/admin/edit_life_status">Trở lại</a><br/>
+    <a href="/admin/search_Person_info">Truy vấn người dân</a>
+    <form id="citizenForm" method="POST" action="/sign_Citizen">
+        <label for="person_id">Person ID:</label><br>
+        <input type="text" id="person_id" name="person_id" required><br>
+        <span id="warningMessage" class="warning" style="display: none;">Person ID không tồn tại!</span><br><br>
+        <input type="submit" id="submitButton" value="Submit" disabled>
+    </form>
+
+    <script>
+        var personIdInput = document.getElementById("person_id");
+        var submitButton = document.getElementById("submitButton");
+        var warningMessage = document.getElementById("warningMessage");
+
+        personIdInput.addEventListener("input", function() {
+            var personId = personIdInput.value.trim();
+
+            // Kiểm tra personId
+            if (personId !== "") {
+                // Gửi yêu cầu kiểm tra person_id tồn tại
+                fetch("/admin/edit_citizens/" + personId)
+                    .then(response => {
+                        if (!response.ok) {
+                            // Nếu không tìm thấy person_id, hiển thị cảnh báo
+                            warningMessage.style.display = "block";
+                            personIdInput.style.borderColor = "red";
+                            submitButton.disabled = true;
+                        } else {
+                            // Nếu tìm thấy person_id, ẩn cảnh báo và bật nút submit
+                            warningMessage.style.display = "none";
+                            personIdInput.style.borderColor = ""; // Khôi phục màu sắc mặc định
+                            submitButton.disabled = false;
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            } else {
+                // Nếu không có giá trị trong ô person_id, ẩn cảnh báo và vô hiệu hóa nút submit
+                warningMessage.style.display = "none";
+                personIdInput.style.borderColor = ""; // Khôi phục màu sắc mặc định
+                submitButton.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>

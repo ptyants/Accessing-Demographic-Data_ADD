@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search and Display User Information</title>
+    <style>
+        /* Styles for the search form and user info */
+        /* Your CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>Search and Display User Information</h1>
+    <a href="/admin/edit_life_status">Trở lại</a><br/>
+    <a href="/sign_Citizen">Đăng ký công dân</a>
+    <form id="search-form">
+        <label for="user-id">Enter User ID:</label>
+        <input type="number" id="user-id" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="user-info">
+        <h2>User Information</h2>
+        <div class="user-info-item">
+            <strong>ID:</strong> <span id="user-id-display"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>Name:</strong> <span id="user-name"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>Address:</strong> <span id="user-address"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>Father Name:</strong> <span id="user-father-name"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>Mother Name:</strong> <span id="user-mother-name"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>Status:</strong> <span id="user-status"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>Description:</strong> <span id="user-description"></span>
+        </div>
+        <!-- Add more fields as needed -->
+    </div>
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var userId = document.getElementById('user-id').value;
+
+            fetch('/admin/edit_citizens/' + userId)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.error) {
+                        document.getElementById('user-id-display').textContent = data.id;
+                        document.getElementById('user-name').textContent = data.name;
+                        document.getElementById('user-address').textContent = data.address;
+                        document.getElementById('user-father-name').textContent = data.father_name;
+                        document.getElementById('user-mother-name').textContent = data.mother_name;
+
+                        // Update status and description
+                        if (data.life_status) {
+                            document.getElementById('user-status').textContent = data.life_status.Ns;
+                            document.getElementById('user-description').textContent = data.life_status.describe;
+                        } else {
+                            document.getElementById('user-status').textContent = "N/A";
+                            document.getElementById('user-description').textContent = "N/A";
+                        }
+
+                        document.getElementById('user-info').style.display = 'block';
+                    } else {
+                        alert(data.error);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

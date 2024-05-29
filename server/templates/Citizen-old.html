@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search and Display User Information</title>
+    <style>
+        /* Style cho form tìm kiếm */
+        #search-form {
+            margin-bottom: 20px;
+        }
+
+        /* Style cho kết quả tìm kiếm */
+        #user-info {
+            display: none; /* Ẩn kết quả ban đầu */
+        }
+
+        /* Style cho thông tin người dùng */
+        .user-info-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search and Display User Information</h1>
+    <form id="search-form">
+        <label for="user-id">Enter User ID:</label>
+        <input type="number" id="user-id" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="user-info">
+        <h2>User Information</h2>
+        <div class="user-info-item">
+            <strong>ID:</strong> <span id="user-id-display"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>Name:</strong> <span id="user-name"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>Address:</strong> <span id="user-address"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>Father name:</strong> <span id="user-father_name"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>Mother name:</strong> <span id="user-mother_name"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>Name Status:</strong> <span id="user-Ns"></span>
+        </div>
+        <div class="user-info-item">
+            <strong>describe:</strong> <span id="user-describe"></span>
+        </div>
+        <!-- Add more fields as needed -->
+    </div>
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Ngăn chặn form submit mặc định
+
+            // Lấy ID từ input
+            var userId = document.getElementById('user-id').value;
+
+            // Gửi request tới server để lấy thông tin người dùng
+            fetch('/admin/edit_citizens/' + userId)
+                .then(response => response.json())
+                .then(data => {
+                    // Hiển thị thông tin người dùng nếu có
+                    if (!data.error) {
+                        document.getElementById('user-id-display').textContent = data.id;
+                        document.getElementById('user-name').textContent = data.name;
+                        document.getElementById('user-address').textContent = data.address;
+                        document.getElementById('user-father_name').textContent = data.father_name;
+                        document.getElementById('user-mother_name').textContent = data.mother_name;
+                        document.getElementById('user-Ns').textContent = data.life_status_data.Ns;
+                        document.getElementById('user-describe').textContent = data.life_status_data.describe;
+                        // Cập nhật các trường thông tin khác nếu cần
+                        document.getElementById('user-info').style.display = 'block'; // Hiển thị kết quả
+                    } else {
+                        alert(data.error); // Hiển thị thông báo lỗi nếu không tìm thấy người dùng
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

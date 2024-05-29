@@ -1,0 +1,233 @@
+<!-- born_cert.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Born CERT</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        select {
+            height: 36px;
+            /* Match the height of other input elements */
+        }
+
+        textarea {
+            resize: vertical;
+            overflow-y: scroll;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Giấy Khai Sinh</h1>
+
+    <!-- Your HTML form goes here -->
+    <form id="bornCertForm">
+        <!-- ... (form fields) ... -->
+        <label for="name">Họ và tên:</label>
+        <input type="text" id="name" name="name" maxlength="100"><br>
+
+        <label for="father_name">Họ và tên Cha:</label>
+        <input type="text" id="father_name" name="father_name" maxlength="100"><br>
+
+        <label for="mother_name">Họ và tên Mẹ:</label>
+        <input type="text" id="mother_name" name="mother_name" maxlength="100"><br>
+
+        <label for="address">Địa chỉ:</label>
+        <textarea id="address" name="address" placeholder="Nhập địa chỉ" maxlength="100" wrap="soft"></textarea><br><br>
+
+        <select id="Ls_id" name="Ls_id">
+            {% for option in fetchDataLifeStatus %}
+            <option value="{{ option.id }}">{{ option.Ns }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="born_in">Born In:</label>
+        <input type="text" id="born_in" name="born_in" value="Bệnh viện Bạch Mai - Sài gòn" readonly><br>
+
+        <label for="date_birth">Ngày sinh:</label>
+        <input type="text" id="date_birth" name="date_birth" onfocusout="setDefaultDate(this)" readonly><br>
+
+
+        <button type="button" onclick="submitBornCertForm()">Submit</button>
+    </form>
+
+    <!-- Display result here -->
+    <div id="result">
+        <h2>Life Status Data</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Life Status</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody id="lifeStatusTableBody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        // Function to make a GET request when the page loads
+        function fetchData() {
+            fetch('http://127.0.0.1:5000/api/get_life_status', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Save the fetched data in a global variable
+                    window.lifeStatusData = data.life_status_data;
+
+                    // Display the fetched data in the table
+                    const lifeStatusTableBody = document.getElementById('lifeStatusTableBody');
+
+                    data.life_status_data.forEach(status => {
+                        const row = lifeStatusTableBody.insertRow();
+                        const cell1 = row.insertCell(0);
+                        const cell2 = row.insertCell(1);
+                        const cell3 = row.insertCell(2);
+
+                        cell1.innerHTML = status.id;
+                        cell2.innerHTML = status.Ns;
+                        cell3.innerHTML = status.describe;
+                    });
+
+                    // Populate the dropdown with options from the JSON data
+                    const selectElement = document.getElementById('Ls_id');
+
+                    // Clear existing options
+                    selectElement.innerHTML = '';
+
+                    data.life_status_data.forEach(option => {
+                        const optionElement = document.createElement('option');
+                        optionElement.value = option.id;
+                        optionElement.text = option.Ns;
+                        selectElement.appendChild(optionElement);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to submit the form data via a POST request
+        function submitBornCertForm() {
+            const formData = {
+                name: document.getElementById('name').value,
+                father_name: document.getElementById('father_name').value,
+                mother_name: document.getElementById('mother_name').value,
+                address: document.getElementById('address').value,
+                Ls_id: document.getElementById('Ls_id').value,
+                born_in: document.getElementById('born_in').value,
+                date_birth: document.getElementById('date_birth').value
+            };
+
+            fetch('http://127.0.0.1:5000/api/sgin_Born_CERT', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response or update the result div
+                    console.log(data);
+                    document.getElementById('result').innerHTML = JSON.stringify(data);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Call the fetchData function when the page loads
+        window.onload = fetchData;
+
+        function setDefaultDate(element) {
+            // Get the current date and time
+            const currentDate = new Date();
+
+            // Format the date to "YYYY-MM-DD HH:MM:SS"
+            const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
+
+            // Set the value of the input field to the current date and time if it's empty
+            if (!element.value.trim()) {
+                element.value = formattedDate;
+            }
+        }
+    </script>
+</body>
+
+</html>

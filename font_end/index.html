@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký công dân</title>
+    <style>
+        /* Đoạn mã CSS ở đây */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Đăng ký công dân</h2>
+    
+    <form id="citizenForm">
+        <label for="name">Họ và tên:</label>
+        <input type="text" id="name" name="name" required><br>
+    
+        <label for="houseHold_id">ID Hộ khẩu:</label>
+        <input type="number" id="houseHold_id" name="houseHold_id" required><br>
+    
+        <!-- Input for Person_info -->
+        <label for="address">Địa chỉ:</label>
+        <input type="text" id="address" name="person_info[address]"><br>
+    
+        <label for="father_id">ID Cha:</label>
+        <input type="number" id="father_id" name="person_info[father_id]"><br>
+    
+        <label for="mother_id">ID Mẹ:</label>
+        <input type="number" id="mother_id" name="person_info[mother_id]"><br>
+    
+        <label for="Ms">Mô tả:</label>
+        <input type="text" id="Ms" name="person_info[Ms]"><br>
+    
+        <!-- 'born_in' field is automatically set to the current date and time -->
+        
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+    
+    <script>
+        function submitForm() {
+            var form = document.getElementById("citizenForm");
+            var formData = new FormData(form);
+    
+            // You can add more client-side validation if needed
+    
+            // Make a POST request to the server
+            fetch("http://127.0.0.1:5000/api/test", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(Object.fromEntries(formData)),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Handle the response from the server as needed
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Handle errors if any
+            });
+        }
+    </script>
+    
+</body>
+</html>

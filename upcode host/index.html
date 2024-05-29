@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Data from Link</title>
+</head>
+<body>
+
+<div id="data-container">
+    <!-- Dữ liệu sẽ được hiển thị ở đây -->
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Địa chỉ URL bạn muốn GET dữ liệu
+    var apiUrl = "https://c3bd-2405-4802-b2f8-8860-1cf1-e950-7a4d-74ac.ngrok-free.app/api/test";
+
+    // Tạo một đối tượng XMLHttpRequest
+    var xhr = new XMLHttpRequest();
+
+    // Xác định loại yêu cầu và địa chỉ URL
+    xhr.open("GET", apiUrl, true);
+
+    // Xử lý sự kiện khi yêu cầu hoàn thành
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // Nếu yêu cầu thành công, hiển thị dữ liệu trong container
+            document.getElementById("data-container").innerHTML = "<p>" + xhr.responseText + "</p>";
+        } else {
+            // Nếu có lỗi, hiển thị thông báo lỗi
+            console.error("Failed to retrieve data. Status code: " + xhr.status);
+        }
+    };
+
+    // Xử lý sự kiện khi có lỗi trong quá trình yêu cầu
+    xhr.onerror = function () {
+        console.error("Network error occurred.");
+    };
+
+    // Gửi yêu cầu
+    xhr.send();
+});
+</script>
+
+</body>
+</html>

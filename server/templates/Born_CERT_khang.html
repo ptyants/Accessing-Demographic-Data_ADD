@@ -1,0 +1,438 @@
+<!-- born_cert.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Born CERT</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Protest+Riot&display=swap');
+
+        body {
+            font-family: 'Arial', sans-serif;
+            /* line-height: 1.6; */
+            margin: 0;
+            padding: 0;
+            /* background-image: url(nui.png); */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: rgb(255, 194, 113);
+        
+        }
+
+        .sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 100%;
+    background-color: black;
+    transition: 0.3s;
+    background: transparent;
+    backdrop-filter: blur(40px);
+    box-shadow: 0px 0px 20px black;
+    overflow: hidden;
+    z-index: 99;
+    /* border-radius: 0 10px 10px 0; */
+}
+
+.sidebar.active{
+    width: 260px;
+}
+
+.logomenu{
+    width: 100%;
+    height: 70px;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    margin-top: 50px;
+
+}
+
+.logomenu .logo{
+    font-size: 40px;
+    pointer-events: none;
+    margin-left: 10px;
+    opacity: 0;
+    /* transition: 0.2s; */
+    color: aliceblue;
+}
+
+.sidebar.active .logomenu .logo{
+    opacity: 1;
+    transition-delay: 0.1s;
+}
+
+
+
+.logomenu .icon{
+    position: absolute;
+    padding: 0px;
+    background-color: aliceblue;
+    font-size: 40px;
+    border-radius: 10px;
+    margin-right: 10px;
+    /* transform: translateX(-50%); */
+    left: 20%;
+    transition: 0.3s;
+}
+
+
+.sidebar.active .logomenu .icon{
+    left: 80%;
+}
+
+.list .listitem{
+    list-style: none;
+    /* width: 100%; */
+    height: 50px;
+    /* padding: 10px; */
+    outline: none;
+    margin: 10px 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;        
+    /* background-color: antiquewhite; */
+    transition: 0.3s;
+    /* color: aliceblue; */
+}
+
+
+/* .list .listitem.active, */
+.list .listitem:hover {
+    background: black;
+}
+
+.list .listitem a{
+    text-decoration: none;
+    font-size: 20px; 
+    display: flex;
+    align-items: center;
+    padding-right: 130px;
+    white-space: nowrap;
+    /* color: aliceblue; */
+}
+
+
+
+.list .listitem a i{
+    font-size: 30px;
+    text-align: center;
+    /* background-color: aliceblue; */
+    min-width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 10px;
+    margin-right: 10px;
+    color: aliceblue;
+}
+
+.sidebar .linkname {
+    opacity: 0;
+    color: aliceblue;
+}
+
+
+
+.sidebar.active .linkname{
+    opacity: 1;
+    transition-delay: 0.1s;
+}
+
+.sidebar ul{
+    padding: 0;
+
+}
+
+
+
+
+        /* #sidebar {
+            background-color: #343a40;
+            color: #fff;
+            padding: 15px;
+            min-width: 200px;
+        }
+
+        #sidebar h2 {
+            margin-bottom: 20px;
+        }
+
+        #sidebar a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        #sidebar a:hover {
+            background-color: #4a525a;
+        } */
+
+        #main-content {
+            /* flex: 1; */
+            /* padding: 15px; */
+            /* display: flex;
+            flex-direction: column;
+            width: 1200px ;
+            justify-content: center;
+            text-align: center; */
+            /* display: flex; */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    margin:auto;
+    padding: 40px 0px;
+    /* position: fixed; */
+    /* background-color: aliceblue; */
+    border-radius: 20px;
+        }
+
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        select {
+            height: 36px;
+            /* Match the height of other input elements */
+        }
+
+        textarea {
+            resize: vertical;
+            overflow-y: scroll;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="sidebar">
+        <div class="logomenu">
+            <h2 class="logo">Menu</h2>
+            <i class='bx bx-menu icon'></i>
+        </div>
+
+        <ul class="list">
+            <li class="listitem">
+                <a href="">
+                    <i class='bx bxs-home' ></i>                    
+                    <span class="linkname">Home</span>
+                </a>
+            </li>
+
+            <li class="listitem">
+                <a href="">
+                    <i class='bx bxs-book-heart' ></i>
+                    <span class="linkname">Life Status</span>
+                </a>
+            </li>
+
+
+            <li class="listitem">
+                <a href="">
+                   <i class='bx bxs-user' ></i>
+                    <span class="linkname">Citizen View</span>
+                </a>
+            </li>
+
+            <li class="listitem">
+                <a href="">
+                    <i class='fas fa-baby' ></i>
+                    <span class="linkname">Born CERT</span>
+                </a>
+            </li>
+
+            <li class="listitem">
+                <a href="">
+                    <i class='bx bxs-file-blank' ></i>
+                    <span class="linkname">Citizen Info</span>
+                </a>
+            </li>
+
+            <li class="listitem">
+                <a href="">
+                    <i class='fas fa-home' ></i>
+                    <span class="linkname">Household</span>
+                </a>
+            </li>
+
+          
+            
+        </ul>
+    </nav>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- <div class="col-md-3" id="sidebar">
+                <h2>Menu</h2>
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/admin/edit_life_status"><i class="fas fa-heartbeat"></i> Life Status</a>
+                <a href="/citien_view"><i class="fas fa-user"></i> Citizen View</a>
+                <a href="/admin/edit_person_info"><i class="fas fa-baby"></i> Born CERT</a>
+                <a href="/admin/edit_citizens"><i class="fas fa-address-card"></i> Citizen Info</a>
+                <a href="/admin/edit_houseHold"><i class="fas fa-home"></i> Household</a>
+            </div> -->
+            
+            <div class="col-md-9" id="main-content">
+                <h1>Giấy Khai Sinh</h1>
+
+                <!-- Your HTML form goes here -->
+                <form id="bornCertForm">
+                    <!-- ... (form fields) ... -->
+                    <label for="name">Họ và tên:</label>
+                    <input type="text" id="name" name="name" maxlength="100"><br>
+
+                    <label for="father_name">Họ và tên Cha:</label>
+                    <input type="text" id="father_name" name="father_name" maxlength="100"><br>
+
+                    <label for="mother_name">Họ và tên Mẹ:</label>
+                    <input type="text" id="mother_name" name="mother_name" maxlength="100"><br>
+
+                    <label for="address">Địa chỉ:</label>
+                    <textarea id="address" name="address" placeholder="Nhập địa chỉ" maxlength="100"
+                        wrap="soft"></textarea><br><br>
+
+                    <select id="Ls_id" name="Ls_id">
+                        {% for option in life_statuses %}
+                        <option value="{{ option.id }}">{{ option.Ns }}</option>
+                        {% endfor %}
+                    </select><br><br>
+
+                    <label for="born_in">Born In:</label>
+                    <input type="text" id="born_in" name="born_in" value="Bệnh viện Bạch Mai - Sài gòn" readonly><br>
+
+                    <label for="date_birth">Ngày sinh:</label>
+                    <input type="text" id="date_birth" name="date_birth" onfocusout="setDefaultDate(this)" readonly><br>
+
+
+                    <button type="button" onclick="submitBornCertForm()">Submit</button>
+                </form>
+
+                <!-- Display result here -->
+                <div id="result">
+                    <h2>Life Status Data</h2>
+
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Life Status</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        {% for status in life_statuses %}
+                        <tbody>
+                            <td>{{status.id}}</td>
+                            <td>{{status.Ns}}</td>
+                            <td>{{ status.describe }}</td>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script>const sidebar = document.querySelector('.sidebar');
+        const icon = document.querySelector('.icon');
+        
+        
+        icon.addEventListener('click',()=>{
+            sidebar.classList.toggle('active');
+        });
+        
+        
+        </script>
+</body>
+
+</html>

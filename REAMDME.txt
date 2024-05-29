@@ -1,0 +1,3 @@
+Hệ thống quản lí dân số dùng mysql
+Accessing Demographic Data
+ADD simple

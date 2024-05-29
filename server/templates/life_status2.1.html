@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Status</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+        }
+
+        #sidebar {
+            width: 220px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            transform: translateX(-220px);
+        }
+
+        #main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            transition: margin-left 0.3s ease;
+            margin-left: 0;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: auto;
+            overflow-y: auto;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #menu-toggle {
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        #menu-toggle:hover {
+            background-color: #555;
+        }
+
+        #sidebar.open {
+            transform: translateX(0);
+        }
+
+        #main-content.open {
+            margin-left: 220px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sidebar">
+        <h2>Menu</h2>
+        <a href="/">Home</a>
+        <a href="/admin/edit_life_status">Life Status</a>
+        <a href="/citien_view">Citizen View</a>
+    </div>
+
+    <div id="main-content">
+        <button id="menu-toggle">Toggle Menu</button>
+        <h1>Life Status</h1>
+
+        <form method="POST" action="{{ url_for('edit_life_status') }}">
+            <label for="Ns">Loại tình trạng:</label>
+            <input type="text" name="Ns" required>
+
+            <label for="describe">Mô tả:</label>
+            <input type="text" name="describe" required>
+
+            <button type="submit">Thêm tình trạng sống</button>
+        </form>
+
+        <ul>
+            {% for status in life_statuses %}
+            <li>{{ status.Ns }} - {{ status.describe }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const menuToggle = document.getElementById('menu-toggle');
+
+            menuToggle.addEventListener('click', function () {
+                sidebar.classList.toggle('open');
+                mainContent.classList.toggle('open');
+            });
+        });
+    </script>
+</body>
+
+</html>
